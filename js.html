@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Primeiro Site</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 800px; /* Definido em px para seguir seu padrão */
+            margin: 0px;
+        }
+
+        .cartao {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+            width: 450px;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 40px; /* Tamanho em px */
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555555;
+            font-size: 18px; /* Tamanho em px */
+            line-height: 28px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="cartao">
+        <h1 id="titulo">Olá, esse é meu site</h1>
+        <p>Este é meu primeiro site utilizando as técnicas básicas de HTML, CSS e JavaScript integradas em um único arquivo.
+            
+        </p>        
+        <button onclick="executarAcao()">Clique para interagir</button>
+    </div>
+    <script>
+        function executarAcao() {
+            const titulo = document.getElementById('titulo');
+            
+            // Altera o conteúdo e o estilo via JS
+            titulo.innerText = "Aprendizado concluído!";
+            titulo.style.color = "#28a745";
+            titulo.style.fontSize = "35px";            
+            alert("O JavaScript alterou os estilos do HTML!");
+        }
+    </script>
+</body>
+</html>

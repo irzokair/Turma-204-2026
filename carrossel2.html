@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Galeria Estilo Google Fotos</title>
+
+    <style>
+        /* Configurações gerais do corpo do site */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #444444;
+            margin-bottom: 10px;
+        }
+
+        /* Container da Foto em Destaque (Visualizador) */
+        .visualizador {
+            width: 800px;
+            height: 500px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #dddddd;
+        }
+
+        .foto-grande {
+            max-width: 760px;
+            max-height: 460px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Grade de Miniaturas (estilo Google Fotos) */
+        .grade-fotos {
+            display: flex;
+            flex-wrap: wrap; /* Faz as fotos pularem de linha se não couberem */
+            justify-content: center;
+            width: 820px;
+            gap: 15px; /* Espaço entre as miniaturas */
+        }
+
+        .miniatura {
+            width: 150px;
+            height: 150px;
+            object-fit: cover; /* Corta a foto para ficar quadrada e bonita */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s;
+            border: 3px solid transparent;
+        }
+
+        /* Efeito ao passar o mouse na miniatura */
+        .miniatura:hover {
+            transform: scale(1.05);
+            border: 3px solid #4285f4; /* Cor azul padrão do Google */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Olá, esse é meu site</h1>
+    <p>Clique nas miniaturas abaixo para ampliar as fotos (simulando o Google Fotos).</p>
+
+    <div class="visualizador">
+        <img id="foto-principal" src="foto1.jpg" alt="Destaque" class="foto-grande">
+    </div>
+
+    <div class="grade-fotos">
+        <img src="foto1.jpg" class="miniatura" onclick="ampliar('foto1.jpg')">
+        <img src="foto2.jpg" class="miniatura" onclick="ampliar('foto2.jpg')">
+        <img src="foto3.jpg" class="miniatura" onclick="ampliar('foto3.jpg')">
+        <img src="foto4.jpg" class="miniatura" onclick="ampliar('foto4.jpg')">
+        <img src="foto5.jpg" class="miniatura" onclick="ampliar('foto5.jpg')">
+    </div>
+
+    <script>
+        // Esta função recebe o nome do arquivo que foi clicado
+        function ampliar(nomeDoArquivo) {
+            
+            // 1. Localizamos o elemento da foto grande pelo ID
+            const principal = document.getElementById("foto-principal");
+
+            // 2. Trocamos o 'src' da foto grande pelo nome que recebemos no clique
+            principal.src = nomeDoArquivo;
+
+            // 3. (Opcional) Log no console para os alunos verem a lógica funcionando
+            console.log("A foto exibida agora é: " + nomeDoArquivo);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Primeiro Carrossel</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333333;
+        }
+
+        .carrossel-container {
+            background-color: #ffffff;
+            width: 640px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .foto-estilo {
+            width: 600px;
+            height: 400px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 1px solid #cccccc;
+        }
+
+        .controles {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 0px 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Olá, esse é meu site</h1>
+    <p>Primeiro contato com manipulação de imagens via JavaScript.</p>
+
+    <div class="carrossel-container">
+        <img id="espaco-da-foto" src="https://picsum.photos/id/101/600/400" alt="Imagens" class="foto-estilo">
+        
+        <div class="controles">
+            <button onclick="voltar()">Anterior</button>
+            <button onclick="avancar()">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Criamos uma lista (Array) com os endereços das fotos
+        // Cada endereço está em uma posição, começando do 0, 1, 2...
+        const listaDeFotos = [
+            "https://picsum.photos/id/101/600/400",
+            "https://picsum.photos/id/102/600/400",
+            "https://picsum.photos/id/103/600/400",
+            "https://picsum.photos/id/104/600/400",
+            "https://picsum.photos/id/105/600/400",
+            "https://picsum.photos/id/106/600/400",
+            "https://picsum.photos/id/107/600/400",
+            "https://picsum.photos/id/108/600/400",
+            "https://picsum.photos/id/109/600/400"
+        ];
+
+        // 2. Criamos uma variável para controlar qual foto está aparecendo agora
+        // Começamos na posição 0 (a primeira foto da lista)
+        let posicaoAtual = 0;
+
+        // 3. Função para atualizar a imagem que aparece na tela
+        function atualizarTela() {
+            // Buscamos a tag <img> lá no HTML usando o ID que demos a ela
+            const imagemHtml = document.getElementById("espaco-da-foto");
+            
+            // Mudamos o "src" (origem) da imagem para a foto que está na nossa lista
+            imagemHtml.src = listaDeFotos[posicaoAtual];
+        }
+
+        // 4. Função que roda quando clicamos no botão "Próximo"
+        function avancar() {
+            // Aumentamos a posição atual em +1
+            posicaoAtual = posicaoAtual + 1;
+
+            // Se a posição chegar no final da lista, voltamos para o zero (primeira foto)
+            if (posicaoAtual >= listaDeFotos.length) {
+                posicaoAtual = 0;
+            }
+
+            // Chamamos a função para mostrar a foto nova na tela
+            atualizarTela();
+        }
+
+        // 5. Função que roda quando clicamos no botão "Anterior"
+        function voltar() {
+            // Diminuímos a posição atual em -1
+            posicaoAtual = posicaoAtual - 1;
+
+            // Se a posição ficar menor que zero, pulamos para a última foto da lista
+            if (posicaoAtual < 0) {
+                posicaoAtual = listaDeFotos.length - 1;
+            }
+
+            // Chamamos a função para mostrar a foto nova na tela
+            atualizarTela();
+        }
+    </script>
+
+</body>
+</html>

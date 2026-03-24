@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Prática: Sistema de Cinema</title>
+    <style>
+        /* CSS para dar um aspecto profissional à aula */
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background-color: #f4f7f6; color: #333; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        h1 { color: #2c3e50; text-align: center; }
+        .campo { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { background-color: #27ae60; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
+        button:hover { background-color: #219150; }
+        #resultado { margin-top: 25px; }
+        .filme-card { background: #fff; border-left: 6px solid #27ae60; padding: 15px; margin: 10px 0; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .genero { font-size: 0.85em; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; }
+        .classificacao { float: right; font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Cine Aula: Categorias</h1>
+        
+        <div class="campo">
+            <label for="inputIdade">Digite a idade do aluno:</label>
+            <input type="number" id="inputIdade" placeholder="Ex: 16">
+        </div>
+
+        <button onclick="gerarCatalogo()">Consultar Filmes Disponíveis</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        /**
+         * 1. BANCO DE DADOS (Simulado)
+         * Usamos um Array de Objetos para organizar as informações. 
+         * Cada objeto {} representa um filme com suas propriedades.
+         */
+        const catalogoFilmes = [
+            { titulo: "O Rei Leão", genero: "Animação", idadeMinima: 0 },
+            { titulo: "Homem-Aranha", genero: "Ação", idadeMinima: 12 },
+            { titulo: "Inception (A Origem)", genero: "Ficção Científica", idadeMinima: 14 },
+            { titulo: "Deadpool", genero: "Comédia/Ação", idadeMinima: 16 },
+            { titulo: "Coringa", genero: "Drama/Suspense", idadeMinima: 16 },
+            { titulo: "O Iluminado", genero: "Terror", idadeMinima: 18 },
+            { titulo: "Pânico", genero: "Terror", idadeMinima: 18 }
+        ];
+
+        /**
+         * 2. FUNÇÃO PRINCIPAL
+         * Esta função é o "cérebro" da nossa aplicação.
+         */
+        function gerarCatalogo() {
+            // Captura os elementos do DOM (HTML) para manipulação
+            const campoIdade = document.getElementById('inputIdade');
+            const areaExibicao = document.getElementById('resultado');
+            
+            // Converte o valor de texto do input para um número (Tipo de Dado Number)
+            const idade = Number(campoIdade.value);
+
+            // Limpa o conteúdo anterior antes de gerar uma nova lista
+            areaExibicao.innerHTML = "";
+
+            // VALIDAÇÃO: Verifica se o campo está vazio ou se não é um número
+            if (campoIdade.value === "" || isNaN(idade)) {
+                areaExibicao.innerHTML = "<p style='color:red'>Erro: Digite uma idade válida para consultar.</p>";
+                return; // O 'return' encerra a função aqui caso haja erro
+            }
+
+            /**
+             * 3. PROGRAMAÇÃO FUNCIONAL (Filter)
+             * O método .filter() cria um novo Array contendo apenas os filmes 
+             * onde a idade digitada é maior ou igual à idadeMinima do filme.
+             */
+            const filmesPermitidos = catalogoFilmes.filter(filme => {
+                return idade >= filme.idadeMinima;
+            });
+
+            // Adiciona um título ao resultado
+            areaExibicao.innerHTML = `<h2>Resultados para ${idade} anos:</h2>`;
+
+            /**
+             * 4. ESTRUTURA DE REPETIÇÃO (forEach)
+             * Usamos o forEach para percorrer cada filme da lista de permitidos 
+             * e construir o HTML dinamicamente na tela.
+             */
+            filmesPermitidos.forEach(filme => {
+                // Template Strings (usando crases ``) facilitam a escrita de HTML no JS
+                const htmlCard = `
+                    <div class="filme-card">
+                        <span class="classificacao">${filme.idadeMinima}+</span>
+                        <strong>${filme.titulo}</strong> <br>
+                        <span class="genero">${filme.genero}</span>
+                    </div>
+                `;
+                // Injeta o card criado dentro da div de resultado
+                areaExibicao.innerHTML += htmlCard;
+            });
+
+            /**
+             * 5. CONDICIONAL FINAL
+             * Caso o filtro resulte em uma lista vazia.
+             */
+            if (filmesPermitidos.length === 0) {
+                areaExibicao.innerHTML += "<p>Nenhum filme disponível para esta idade.</p>";
+            }
+        }
+    </script>
+</body>
+</html>

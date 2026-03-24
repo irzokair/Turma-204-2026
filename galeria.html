@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Google Fotos Fake</title>
+
+    <style>
+        /* CSS - O Estilo do Site */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-size: 35px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        /* Área de Controles */
+        .painel-controles {
+            background-color: #ffffff;
+            width: 800px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .btn-salvar { background-color: #4285f4; color: white; }
+        .btn-limpar { background-color: #ea4335; color: white; }
+        
+        .btn:hover { opacity: 0.8; }
+
+        /* Visualizador da Foto em Destaque */
+        .visualizador {
+            width: 800px;
+            height: 450px;
+            background-color: #222222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #dddddd;
+        }
+
+        #foto-ampliada {
+            max-width: 780px;
+            max-height: 430px;
+            display: none; /* Escondido até o usuário clicar em algo */
+        }
+
+        /* Grade de Miniaturas */
+        .grade-fotos {
+            width: 840px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .miniatura {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .miniatura:hover {
+            border-color: #4285f4;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Olá, esse é meu site</h1>
+    <p>Galeria estilo Google Fotos com Banco de Dados Local.</p>
+
+    <div class="painel-controles">
+        <input type="file" id="campo-imagem" accept="image/*" multiple>
+        <button class="btn btn-salvar" onclick="uploadDeFoto()">Salvar na Galeria</button>
+        <button class="btn btn-limpar" onclick="limparGaleria()">Limpar Tudo</button>
+    </div>
+
+    <div class="visualizador">
+        <img id="foto-ampliada" src="" alt="Foto em Destaque">
+    </div>
+
+    <div id="grade" class="grade-fotos"></div>
+
+    
+
+    <script>
+        // --- 1. CARREGAR AO INICIAR ---
+        // Quando a página termina de carregar, chama a galeria do banco
+        window.onload = function() {
+            carregarGaleriaDoBanco();
+        };
+
+        // --- 2. FUNÇÃO DE UPLOAD ---
+        function uploadDeFoto() {
+            const input = document.getElementById('campo-imagem');
+            const arquivo = input.files[0];
+
+            if (arquivo) {
+                const leitor = new FileReader();
+
+                // Quando o navegador terminar de ler o arquivo do PC...
+                leitor.onload = function(evento) {
+                    const imagemEmTexto = evento.target.result;
+
+                    // Pega o banco atual ou cria um novo se estiver vazio
+                    let bancoFake = JSON.parse(localStorage.getItem('minha_galeria')) || [];
+                    
+                    // Adiciona a nova imagem (em formato de texto Base64) na lista
+                    bancoFake.push(imagemEmTexto);
+
+                    // Salva a lista atualizada no Banco Local (localStorage)
+                    localStorage.setItem('minha_galeria', JSON.stringify(bancoFake));
+
+                    // Limpa o campo e atualiza a galeria na tela
+                    input.value = "";
+                    carregarGaleriaDoBanco();
+                };
+
+                leitor.readAsDataURL(arquivo);
+            } else {
+                alert("Por favor, selecione uma foto primeiro.");
+            }
+        }
+
+        // --- 3. FUNÇÃO DE EXIBIÇÃO ---
+        function carregarGaleriaDoBanco() {
+            const grade = document.getElementById('grade');
+            const fotoDestaque = document.getElementById('foto-ampliada');
+            
+            // Limpa a grade visual para não repetir fotos
+            grade.innerHTML = "";
+
+            // Busca a lista de fotos no Banco Local
+            let bancoFake = JSON.parse(localStorage.getItem('minha_galeria')) || [];
+
+            // Para cada foto salva, criamos um elemento <img> no site
+            bancoFake.forEach(function(urlImagem) {
+                const miniImg = document.createElement('img');
+                miniImg.src = urlImagem;
+                miniImg.className = "miniatura";
+
+                // Ao clicar na miniatura, ela aparece no visualizador grande
+                miniImg.onclick = function() {
+                    fotoDestaque.src = urlImagem;
+                    fotoDestaque.style.display = "block";
+                };
+
+                grade.appendChild(miniImg);
+            });
+        }
+
+        // --- 4. FUNÇÃO DE LIMPEZA ---
+        function limparGaleria() {
+            // Pergunta para confirmar a exclusão
+            if (confirm("Deseja apagar todas as fotos da sua galeria?")) {
+                // Remove a chave do banco de dados local
+                localStorage.removeItem('minha_galeria');
+
+                // Esconde a foto grande e limpa a grade
+                document.getElementById('foto-ampliada').style.display = "none";
+                carregarGaleriaDoBanco();
+                
+                alert("Galeria limpa com sucesso!");
+            }
+        }
+    </script>
+
+</body>
+</html>

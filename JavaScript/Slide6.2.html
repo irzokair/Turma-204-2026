@@ -1,0 +1,11 @@
+<script>
+    let exemplo = 10;          // O interpretador define como número
+    console.log(typeof exemplo); // Saída: "number"
+
+    exemplo = "Agora sou texto"; // O tipo muda dinamicamente
+    console.log(typeof exemplo); // Saída: "string"
+
+    // A "armadilha" da tipagem fraca:
+    let soma = 10 + "5"; 
+    console.log(soma); // Resultado: "105" (Ele juntou em vez de somar!)
+</script>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemplo Caixas de Diálogo</title>
+</head>
+<body>
+    <script>
+        // 1. Usando o Alert para saudar
+        alert("Iniciando o teste de interação!");
+
+        // 2. Usando o Prompt para capturar um dado
+        // O interpretador identifica o tipo de dado em tempo de execução
+        let idade = prompt("Quantos anos você tem?");
+
+        // 3. Usando o Confirm para uma decisão lógica
+        let maiorDeIdade = confirm("Você confirma que tem " + idade + " anos?");
+
+        if (maiorDeIdade) {
+            alert("Informação confirmada com sucesso!");
+        } else {
+            alert("O usuário cancelou a confirmação.");
+        }
+    </script>
+</body>
+</html>
